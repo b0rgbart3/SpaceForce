@@ -8,47 +8,28 @@
 
 */
 
-$(document).ready(function() {
-    
-    // $('.carousel').carousel();
-
-    //  This was the original search button handler
-    //$("#searchBtn").click(searchNASA);
-
-    // This is bart's new search button handler
-    $("#searchBtn").click(respondToSearchInput);
-
-    // started putting in some quick code with my (HS) tutor to get the Wiki API up and running, will comment out all Wiki API below for now
-  //  $("#searchBtn").click(searchWIKI);
-    $(".nasaImg").click(showImgInfoModal);
-
-    /// This is the button handler for the preset buttons
-    $(".preset").click(presetSearch);
-
-    $(".carousel-control-prev-icon").click(closeModal);
-    $(".carousel-control-next-icon").click(closeModal);
-});
-
-
 // Global variables
 var responseObject;
 var searchWord;
 var imageURLS = [];
 var descriptions = [];
 var keywords = [];
-
 var timer = null;
 
 
+
+$(document).ready(function() {
+    $("#searchBtn").click(respondToSearchInput);
+    $(".nasaImg").click(showImgInfoModal);
+    $(".preset").click(presetSearch);
+    $(".carousel-control-prev-icon").click(closeModal);
+    $(".carousel-control-next-icon").click(closeModal);
+});
+
+
 // This is the search input input handler
-var respondToSearchInput =function(event) {
-
-    // interrupt the browser default process of 
-    // redirecting to another page	   
-    
+var respondToSearchInput =function(event) { 
     event.preventDefault();	   
-    console.log("Initializing search");	 
-
     searchNASA();
 }
 
@@ -76,116 +57,54 @@ var searchNASA=function() {
       .then(collectNASAData);
 }}
 
-var searchWIKI=function(event) {
+// var searchWIKI=function(event) {
  
-    // interrupt the browser default process of redirecting to another page
-    // when the form input is filled out
-    // event.preventDefault();
-    console.log("Initializing Wiki search");
+//     // interrupt the browser default process of redirecting to another page
+//     // when the form input is filled out
+//     // event.preventDefault();
+//     console.log("Initializing Wiki search");
 
-    searchWord = $("#searchInput").val();
-    if (searchWord) {
-        searchWord = searchWord.toLowerCase();
-    }
-    // var CorsKey = "https://cors-anywhere.herokuapp.com/";
-    var WIKIQueryURL ="https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/rest.php/v1/search/page?q=" + searchWord + "&limit=1";
+//     searchWord = $("#searchInput").val();
+//     if (searchWord) {
+//         searchWord = searchWord.toLowerCase();
+//     }
+//     // var CorsKey = "https://cors-anywhere.herokuapp.com/";
+//     var WIKIQueryURL ="https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/rest.php/v1/search/page?q=" + searchWord + "&limit=1";
 
-    // Performing an AJAX request with the queryURL
-    $.ajax({
-      url: WIKIQueryURL,
-      method: "GET"
-    })
-      // After data comes back from the request
-      .then(collectWIKIData);
-}
+//     // Performing an AJAX request with the queryURL
+//     $.ajax({
+//       url: WIKIQueryURL,
+//       method: "GET"
+//     })
+//       // After data comes back from the request
+//       .then(collectWIKIData);
+// }
 
 
 
-// collectNASAData 
-// This is the callback function that receives the data from NASA
-// var collectNASAData = function(response) {
-//     console.log("In collect Nasa Data");
+// var collectWIKIData = function(response) {
+    
 
 //     var collection; 
 //     var items;
 
-    // Here I need to parse through the response object into
-    // data that we can actually use, starting with an array of images
+//     // Here I need to parse through the response object into
+//     // data that we can actually use, starting with an array of images
 
-    // make sure we got something
-   // if (response) {
-        //console.log(JSON.stringify(response));
-        // What the heck - let's save our own copy of this response object
-        // in case we want to look at it later
-      //  responseObject = response;
-      //  collection = responseObject.collection;
-
-         // clear out the arrays to start with
-       // imageURLS=[];
-       // descriptions=[];
-       // keywords=[];
-
+//     // make sure we got something
+//     if (response) {
         
-       // items = collection.items;
-        // console.log(JSON.stringify(items) );
-        // if (items)
-        // {
-        //     console.log("found items...");
-        //     items.forEach(function(item) {
-        //         console.log("Item Data: ", item.data);
-        //         if(item.links && item.links[0] && itemlinks[0].href && itemlinks[0].type==="image")
-        //         {
-        //             // collect image urls
-        //             var thisURL = item.links[0].href ;
-
-        //             // store them in a local array
-        //             if (thisURL) {
-        //             imageURLS.push(thisURL); }
-
-        //             // make sure the data object exists
-        //             if (item.data && item.data[0]) {
-                        
-        //                 // grab the description and keywords and store them
-        //                 var thisDescription = item.data[0].description;
-        //                 var theseKeyWords = item.data[0].keywords;
-        //                 descriptions.push(thisDescription);
-        //                 keywords.push(theseKeyWords);
-        //             }
-        //         }
-        //     });
-
-        // }
+//         console.log(response);
+//         console.log(response.pages[0]);
+//         console.log(response.pages[0].title);
+//         console.log(response.pages[0].excerpt);
+//         // What the heck - let's save our own copy of this response object
+//         // in case we want to look at it later
         
-//         buildImageNodes();
-//         // this will trigger the display to show the images in the slider
-//         displayImageSlider();
+        
+//         buildWikiNodes(response.pages[0]);
 //     }
 // }
-// console.log("hello")
-
-var collectWIKIData = function(response) {
-    
-
-    var collection; 
-    var items;
-
-    // Here I need to parse through the response object into
-    // data that we can actually use, starting with an array of images
-
-    // make sure we got something
-    if (response) {
-        
-        console.log(response);
-        console.log(response.pages[0]);
-        console.log(response.pages[0].title);
-        console.log(response.pages[0].excerpt);
-        // What the heck - let's save our own copy of this response object
-        // in case we want to look at it later
-        
-        
-        buildWikiNodes(response.pages[0]);
-    }
-}
 
 var displayImageSlider = function() {
     // make the image slider visible on the page
@@ -200,77 +119,6 @@ var showImgInfoModal = function() {
 }
 
 
-// This dynamically generates image nodes in the DOM
-// for the slider
-// var buildImageNodes = function() {
-//     if (imageURLS) {
-//         var container = $("#carousel-inner")
-//         container.empty();
-//         var newDiv = null;
-//         imageURLS.forEach( function(imageURL, index) {
-//             console.log("index: ", index);
-
-//             if (index === 0 ) {
-//                 newDiv = $("<div class='carousel-item active'>");
-//             } else {
-//             newDiv = $("<div class='carousel-item'>"); }
-
-//             var newImage = $("<img>");
-//             newImage.attr("src",imageURL);
-//             // donna tweaked this to have the jbox work //
-//             newImage.attr("title",descriptions[index])
-//             newImage.attr("data-id", index);
-
-//             var newCaption = $("<div carousel-caption d-none d-md-block>");
-//             var newHead = $("<h5>Slide</h5>");
-//             var newText = $("<p>Null vitae</p>");
-//             newDiv.append(newImage);
-//             newDiv.append(newCaption);
-//             newDiv.append(newHead);
-//             newDiv.append(newText);
-//             container.append(newDiv);
-
-//             console.log(newDiv);
-
-        //     <div class="carousel-item active">
-        //     <img src="..." class="d-block w-100" alt="...">
-        //     <div class="carousel-caption d-none d-md-block">
-        //       <h5>First slide label</h5>
-        //       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        //     </div>
-        //   </div>
-
-
-
-            // donna tweaked this to have the jbox work //
-          //  newImage.attr("class", "hover-description");
-           // var anchorTag = $("<a>")
-           // anchorTag.attr("class", "carousel-item");
-            
-           // anchorTag.append(newImage);
-            //container.append(newImage);
-            
-     //   })
-        // $('.carousel').carousel();
-        
-        // // donnas modal coding //
-        // new jBox('Tooltip', {
-        //     attach: '.hover-description',
-        //     width: 400,
-        //   });
-
-
-          // 
-          // new jBox('Modal', {
-          // width: 400,
-          // attach: '.hover-description',
-          // title: 'More Info',
-          // content: 'Read More: (WIKI API LINKS AND INFO GOES HERE'
-      //    });
-           // 
-//     }
-// }
-// this is fixed.
 var buildWikiNodes = function(searchInfo) {
     
     var wikiTag = $("<h2>")
@@ -300,27 +148,6 @@ var presetSearch = function(event) {
 }
 
 
-// =============================
-// Bart's Code below here....
-
-
-$(document).ready(function() {
-
-
-
-    // This line will need to go inside the JQuery Document Ready code block
-    $("#searchBtn").click(searchNASA);
-    $(".nasaImg").click(showImgInfoModal);
-
-});
-
-
-// Global variables
-var responseObject;
-var searchWord;
-var imageURLS = [];
-var descriptions = [];
-var keywords = [];
 
 
 // These function declaration can go anywhere
