@@ -217,7 +217,7 @@ zoom: 1;
 
 
 .carousel {
-    border:4px solid green;
+ 
     width:100%;
     display:block;
     float:none;
@@ -237,9 +237,9 @@ zoom: 1;
     position: absolute;
     top: 50%;
     left: 0%;
-    -ms-transform: translate(0, -50%);
-    transform: translate(0%, -50%);
-    border:2px solid orange;
+    -ms-transform: translate(10%, -50%);
+    transform: translate(10%, -50%);
+  
     display:inline-block;
     float:left;
 
@@ -285,7 +285,18 @@ zoom: 1;
     float:right;
     width:30%;
     background-color:black;
-    border:2px solid red;
+   border-radius:20px;
+    top: 50%;
+    -ms-transform: translate(30%, -50%);
+    transform: translate(30%, -50%);
+    position: absolute;
+    padding:20px;
+    box-sizing: border-box;
+}
+
+.carousel-control-next, .carousel-control-prev{
+    
+    width:80px;
 }
 
 /* @media only screen and (min-width:768px) {
