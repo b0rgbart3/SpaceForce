@@ -20,10 +20,10 @@ var timer = null;
 
 $(document).ready(function() {
     $("#searchBtn").click(respondToSearchInput);
-    $(".nasaImg").click(showImgInfoModal);
+  //  $(".nasaImg").click(showImgInfoModal);
     $(".preset").click(presetSearch);
-    $(".carousel-control-prev-icon").click(closeModal);
-    $(".carousel-control-next-icon").click(closeModal);
+  //  $(".carousel-control-prev-icon").click(closeModal);
+   // $(".carousel-control-next-icon").click(closeModal);
 });
 
 
@@ -127,12 +127,12 @@ var displayImageSlider = function() {
     //$("#imageSlider").style.attr({"display":"block"});
     $("#imageSlider").css({"opacity":"1"});
 }
-var showImgInfoModal = function() {
+// var showImgInfoModal = function() {
 
-    $("#imageInfoModal").style.attr({"display":"block"});
+//    // $("#imageInfoModal").style.attr({"display":"block"});
 
 
-}
+// }
 
 
 // var buildWikiNodes = function(searchInfo) {
@@ -201,6 +201,7 @@ var collectNASAData = function(response) {
         collection = responseObject.collection;
         
         items = collection.items;
+        descriptions = [];
         // console.log(JSON.stringify(items) );
         if (items)
         {
@@ -254,12 +255,12 @@ var displayImageSlider = function() {
     //$("#imageSlider").style.attr({"display":"block"});
     $("#imageSlider").css({"opacity":"1"});
 }
-var showImgInfoModal = function() {
+// var showImgInfoModal = function() {
 
-    $("#imageInfoModal").style.attr({"display":"block"});
+//     $("#imageInfoModal").style.attr({"display":"block"});
 
 
-}
+// }
 
 
 // buildImageNodes
@@ -288,44 +289,49 @@ var buildImageNodes = function() {
             var newCenter = $("<div class='carousel-item-center'>");
 
             if (index === 0 ) {
-                newDiv = $("<div class='carousel-item active'>");
+                newDiv = $("<div class='carousel-item active' id='0'>");
             } else {
-              newDiv = $("<div class='carousel-item'>"); }
+              newDiv = $("<div class='carousel-item' id={$index}>"); }
             var newImage = $("<img class='nasaImage'>");
             newImage.attr("src",imageURL);
             newImage.attr("data-id", index);
             newCenter.append(newImage);
+
+            let newCaption= $("<div class='caption group'>"+ descriptions[index] +"</div>")
+            console.log(index);
+                
             newDiv.append(newCenter);
+            newDiv.append(newCaption);
 
             container.append(newDiv);
 
 
         })
 
-        $(".nasaImage").click(showModal);
+     //   $(".nasaImage").click(showModal);
     }
 }
 
-var showModal = function(e) {
+// var showModal = function(e) {
 
-    var id= $(e.target).data('id');
-  //  console.log(descriptions[id]);
+//     var id= $(e.target).data('id');
+//   //  console.log(descriptions[id]);
 
-    var modal = $("#modal");
-    modal.empty();
-    var newPar = $("<p>" + descriptions[id] + "</p>");
-    modal.append(newPar);
-    modal.toggleClass('showMe');
+//     var modal = $("#modal");
+//     modal.empty();
+//     var newPar = $("<p>" + descriptions[id] + "</p>");
+//     modal.append(newPar);
+//     modal.toggleClass('showMe');
 
-    timer = setTimeout(function() { 
-       closeModal();
-    }, 10000)
-}
+//     timer = setTimeout(function() { 
+//        closeModal();
+//     }, 10000)
+// }
 
-var closeModal = function() {
-  //  console.log("closing modal");
-    var modal = $("#modal");
-    modal.removeClass('showMe'); 
-    if (timer) { clearInterval(timer); }
+// var closeModal = function() {
+//   //  console.log("closing modal");
+//     var modal = $("#modal");
+//     modal.removeClass('showMe'); 
+//     if (timer) { clearInterval(timer); }
 
-}
+// }
