@@ -10,7 +10,7 @@ This is a fun little app that allows users to search through the publicly availa
 4. [Contributors](#Contributors)
 
 <a name="Live Demo"></a>
-# SpaceForce
+<a href="https://b0rgbart3.github.io/SpaceForce/">SpaceForce Live on GithubPates</a>
 
 <a name="Features"></a>
 ## Features
