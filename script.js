@@ -33,13 +33,29 @@ var respondToSearchInput =function(event) {
     searchNASA();
 }
 
+var presetSearch = function(event) {
+    if (event && event.target && event.target.id) {
+        var thisPreset = event.target.id;
+        if (thisPreset) {
+            thisPreset = thisPreset.toLowerCase();
+        }
+        console.log(thisPreset);
+        $("#searchInput").val(thisPreset);
+        searchNASA();
+      //  searchWIKI();
+        }
+}
+
+
+
+
 var searchNASA=function() {
 
     searchWord = $("#searchInput").val();
     if (searchWord) {
         searchWord = searchWord.toLowerCase();
     }
-    console.log(searchWord.length);
+   // console.log(searchWord.length);
     if (searchWord.length < 3) {
         $("#error").css({"display": "block"})
         // console.log(searchWord.length);
@@ -119,33 +135,19 @@ var showImgInfoModal = function() {
 }
 
 
-var buildWikiNodes = function(searchInfo) {
+// var buildWikiNodes = function(searchInfo) {
     
-    var wikiTag = $("<h2>")
-    // wikiTag.attr("href", href);
-    var wikiTagtoo= $("<p>")
-    wikiTag.text(searchInfo.title);
-    wikiTagtoo.html(searchInfo.excerpt);
-    $("#wikiDescription").empty();
-    $("#wikiDescription").append(wikiTag);
-    $("#wikiDescription").append(wikiTagtoo);
+//     var wikiTag = $("<h2>")
+//     // wikiTag.attr("href", href);
+//     var wikiTagtoo= $("<p>")
+//     wikiTag.text(searchInfo.title);
+//     wikiTagtoo.html(searchInfo.excerpt);
+//     $("#wikiDescription").empty();
+//     $("#wikiDescription").append(wikiTag);
+//     $("#wikiDescription").append(wikiTagtoo);
 
-}
+// }
 
-
-
-var presetSearch = function(event) {
-    if (event && event.target && event.target.id) {
-        var thisPreset = event.target.id;
-        if (thisPreset) {
-            thisPreset = thisPreset.toLowerCase();
-        }
-        console.log(thisPreset);
-        $("#searchInput").val(thisPreset);
-        searchNASA();
-      //  searchWIKI();
-        }
-}
 
 
 
@@ -159,16 +161,16 @@ var searchNASA=function(event) {
  
     // interrupt the browser default process of redirecting to another page
     // when the form input is filled out
-    console.log("in searchNasa:");
+  //  console.log("in searchNasa:");
     if (event) {    event.preventDefault(); }
  
-    console.log("Initializing search");
+   // console.log("Initializing search");
 
     searchWord = $("#searchInput").val();
     if (searchWord) {
         searchWord = searchWord.toLowerCase();
     }
-    console.log("Search word: " + searchWord);
+  //  console.log("Search word: " + searchWord);
     var NASAQueryURL = "https://images-api.nasa.gov/search?q="+searchWord;
 
     // Performing an AJAX request with the queryURL
@@ -186,7 +188,7 @@ var collectNASAData = function(response) {
     var collection; 
     var items;
 
-    console.log("In collectNasa Data");
+   // console.log("In collectNasa Data");
     // Here I need to parse through the response object into
     // data that we can actually use, starting with an array of images
 
@@ -204,7 +206,7 @@ var collectNASAData = function(response) {
         {
             imageURLS = [];
             items.forEach(function(item, index) {
-                console.log(item);
+              //  console.log(item);
                 if(item.links && item.links[0] && item.links[0].href  && index < 26 && item.links[0].render === "image") 
                 {
                 
@@ -240,7 +242,7 @@ var collectNASAData = function(response) {
             });
 
         }
-        console.log("About to call buildImageNodes");
+       // console.log("About to call buildImageNodes");
         buildImageNodes();
         // this will trigger the display to show the images in the slider
         displayImageSlider();
@@ -265,7 +267,7 @@ var showImgInfoModal = function() {
 // for the slider
 var buildImageNodes = function() {
     if (imageURLS) {
-        console.log("imageUrls");
+        //console.log("imageUrls");
         var container = $("#carousel-inner")
         container.empty();
         var newDiv = null;
@@ -307,7 +309,7 @@ var buildImageNodes = function() {
 var showModal = function(e) {
 
     var id= $(e.target).data('id');
-    console.log(descriptions[id]);
+  //  console.log(descriptions[id]);
 
     var modal = $("#modal");
     modal.empty();
@@ -321,7 +323,7 @@ var showModal = function(e) {
 }
 
 var closeModal = function() {
-    console.log("closing modal");
+  //  console.log("closing modal");
     var modal = $("#modal");
     modal.removeClass('showMe'); 
     if (timer) { clearInterval(timer); }
