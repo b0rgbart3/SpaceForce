@@ -51,6 +51,7 @@ var presetSearch = function(event) {
 
 var searchNASA=function() {
 
+    console.log("Starting the AJAX request to the NASA API");
     searchWord = $("#searchInput").val();
     if (searchWord) {
         searchWord = searchWord.toLowerCase();
@@ -188,6 +189,7 @@ var collectNASAData = function(response) {
     var collection; 
     var items;
 
+    console.log("Got back from the the NASA API, and now collecting the data");
    // console.log("In collectNasa Data");
     // Here I need to parse through the response object into
     // data that we can actually use, starting with an array of images
@@ -206,44 +208,27 @@ var collectNASAData = function(response) {
         if (items)
         {
             imageURLS = [];
+            
             items.forEach(function(item, index) {
               //  console.log(item);
-                if(item.links && item.links[0] && item.links[0].href  && index < 26 && item.links[0].render === "image") 
-                {
-                
-                    // collect image urls
-                    var thisURL = item.links[0].href;
-                    var testImage = new Image();
-                    testImage.src = thisURL;
-
-                    // check to make sure the image loads -- otherwise we don't want
-                    // to include it.
-                    if (testImage.width != 0 )
-                    {
-
-                         // store them in a local array
-                    imageURLS.push(thisURL);
-
-                    // make sure the data object exists
-                    if (item.data && item.data[0]) {
-                        
-                        // grab the description and keywords and store them
-                        var thisDescription = item.data[0].description;
-                        var theseKeyWords = item.data[0].keywords;
-                        descriptions.push(thisDescription);
-                        keywords.push(theseKeyWords);
-                    }
-
-
-                    }
-                    
-                  
-                   
-                }
+                 loadThisImageItem (item, index);
+               
             });
 
+            // if (imageURLS.length <1 ) {
+            //     console.log("There was a problem loading all the images.");
+            //     items.forEach(function(item, index) {
+            //         //  console.log(item);
+            //            loadThisImageItem (item, index);
+                     
+            //       });
+            //       if (imageURLS.length <1 ) {
+            //         console.log("AGAIN, There was a problem loading all the images.");
+            //       }
+            // }
+
         }
-       // console.log("About to call buildImageNodes");
+       console.log("About to call buildImageNodes: ImageUrls:", imageURLS.length);
         buildImageNodes();
         // this will trigger the display to show the images in the slider
         displayImageSlider();
@@ -261,7 +246,55 @@ var displayImageSlider = function() {
 
 
 // }
+var shorten  = function( longString, desiredLength ) {
+    if (longString.length > desiredLength) {
+    let shorter = longString.substring(0, desiredLength);
+    return shorter + "..."; }
+    else {
+        return longString;
+    }
+}
 
+var loadThisImageItem = function(item, index) {
+
+    if(item.links && item.links[0] && item.links[0].href  && index < 26 && item.links[0].render === "image") 
+    {
+    
+        // collect image urls
+        var thisURL = item.links[0].href;
+        var testImage = new Image();
+        testImage.src = thisURL;
+
+        // check to make sure the image loads -- otherwise we don't want
+        // to include it.
+        // if (testImage.width != 0 )
+        // {
+
+             // store them in a local array
+        imageURLS.push(thisURL);
+
+        // make sure the data object exists
+        if (item.data && item.data[0]) {
+            
+            // grab the description and keywords and store them
+            var thisDescription = shorten(item.data[0].description, 240);
+            var theseKeyWords = item.data[0].keywords;
+            descriptions.push(thisDescription);
+            keywords.push(theseKeyWords);
+        } else {
+            console.log("There was a problem with one of the datums");
+        }
+
+
+        } else {
+            console.log("Image didn't load properly.");
+        }
+        
+      
+       
+  //  }
+
+}
 
 // buildImageNodes
 // This dynamically generates image nodes in the DOM
@@ -292,6 +325,11 @@ var buildImageNodes = function() {
                 newDiv = $("<div class='carousel-item active' id='0'>");
             } else {
               newDiv = $("<div class='carousel-item' id={$index}>"); }
+            
+            var actualImage = new Image;
+            actualImage.src = imageURL;
+
+
             var newImage = $("<img class='nasaImage'>");
             newImage.attr("src",imageURL);
             newImage.attr("data-id", index);
@@ -305,6 +343,11 @@ var buildImageNodes = function() {
 
             container.append(newDiv);
 
+            $(".nasaImage")
+    //.on('load', function() { console.log("image loaded correctly"); })
+    .on('error', function() { console.log("error loading image"); })
+    //.attr("src", $(originalImage).attr("src"))
+;
 
         })
 
